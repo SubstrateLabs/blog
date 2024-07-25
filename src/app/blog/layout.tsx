@@ -11,7 +11,7 @@ const RootDocsLayout = ({ children }: { children: ReactNode }) => {
       nav={{
         title: (
           <Link
-            href="/"
+            href="https://substrate.run/blog"
             className="rounded backdrop-blur px-2 group space-x-2 hover:bg-[#292B33] flex items-center"
           >
             <div className="invert-0 group-hover:invert py-2">
