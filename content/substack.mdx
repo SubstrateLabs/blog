@@ -1,0 +1,22 @@
+---
+title: "Substack runs modular AI workloads on Substrate"
+description: "By choosing Substrate, Substack develops multi-inference AI workloads with greater speed and flexibility than ever before."
+date: 06-21-2024
+image: "/substack-substrate.png"
+---
+
+<div class="hero-image">
+    <img width={1020} height={510} src="/substack-substrate.png" alt="Substack runs modular AI workloads on Substrate" />
+</div>
+
+[Substack](https://substack.com) is a large online publishing platform that enables writers to engage directly with their readers, with over 17k active writers.
+
+Substack employs ML for various purposes, including image generation, content categorization, content recommendation, semantic search, and audio transcription. For all of these use cases, Substack has moved their inference workloads to Substrate.
+
+Initially, Substack tried using other tools to power generative AI features embedded in their publishing flow. But the result was slow and expensive, and in order to roll these features out to all writers on their platform, they had to find another solution. They knew that if they could wave a magic wand, their ideal solution would be a set of simple APIs they could call, without any additional infrastructure for their engineering team to manage. But speed, cost, reliability, and extensibility were critical, and no providers fit the bill. Substrate offered performant inference for all of the models they wanted to use, behind a polished API.
+
+Substack was also exploring ways to integrate LLMs, semantic vectors, and vector databases into their internal systems to categorize and recommend content. These tasks required using an ensemble of ML models in coordination with a vector database. When using other providers, Substack found that making many parallel or chained API requests in a single workflow was prohibitively slow, and often triggered rate limits. They considered taking on running the infrastructure themselves – which their engineering team would have been capable of – but they knew this would come at a cost to progress on their core product.
+
+Because Substack already used Substrate for performant inference running individual models, using Substrate for multi-model pipelines and integrated vector retrieval was an obvious choice. Using the Substrate TypeScript SDK, Substack started composing LLM, VLM, transcription, embedding, and retrieval tasks into graph workflows. Today, Substack runs many multi-inference workloads (some with dozens of nodes) at scale across their entire content catalog.
+
+By choosing Substrate, Substack has been able to develop large-scale, modular, multi-inference AI workflows with greater speed and flexibility than ever before.
