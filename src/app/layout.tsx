@@ -21,6 +21,11 @@ const Layout = ({ children }: { children: ReactNode }) => {
         <RootProvider>
           {children}
           <Footer />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `!function(t){if(window.ko)return;window.ko=[],["identify","track","removeListeners","open","on","off","qualify","ready"].forEach(function(t){ko[t]=function(){var n=[].slice.call(arguments);return n.unshift(t),ko.push(n),ko}});var n=document.createElement("script");n.async=!0,n.setAttribute("src","https://cdn.getkoala.com/v1/pk_af35b2e4346aa70b564bcace954b11870eb8/sdk.js"),(document.body || document.head).appendChild(n)}();`,
+            }}
+          />
         </RootProvider>
       </body>
     </html>
