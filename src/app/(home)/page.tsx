@@ -35,9 +35,7 @@ const HomePage = ({
         </div>
         <div className="flex flex-col gap-4 text-left">
           {posts.map((post) => {
-            const date = new Date(post.data.date).toLocaleDateString("ja-JP", {
-              timeZone: "Asia/Tokyo",
-            });
+            const date = new Date(post.data.date).toLocaleDateString();
             return (
               <PostCard
                 title={post.data.title}

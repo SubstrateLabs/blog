@@ -12,9 +12,7 @@ const Page = ({ params }: { params: { slug?: string[] } }) => {
     notFound();
   }
 
-  const date = new Date(post.data.date).toLocaleDateString('ja-JP', {
-    timeZone: 'Asia/Tokyo',
-  });
+  const date = new Date(post.data.date).toLocaleDateString();
 
   const lastModified = post.data.exports.lastModified;
   let lastUpdate: Date | undefined = undefined;

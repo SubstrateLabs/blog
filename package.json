@@ -6,12 +6,7 @@
     "build": "next build",
     "postbuild": "next-sitemap",
     "dev": "next dev",
-    "start": "next start",
-    "format": "biome format --write .",
-    "lint": "biome lint .",
-    "lint:fix": "biome lint --write --unsafe .",
-    "check": "biome check .",
-    "check:fix": "biome check --write --unsafe ."
+    "start": "next start"
   },
   "dependencies": {
     "@next/third-parties": "^14.2.4",
@@ -23,7 +18,7 @@
     "fumadocs-ui": "^12.3.4",
     "katex": "^0.16.10",
     "lucide-react": "^0.399.0",
-    "next": "^14.2.4",
+    "next": "^14.2.5",
     "next-sitemap": "^4.2.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
