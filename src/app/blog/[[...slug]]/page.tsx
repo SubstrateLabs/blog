@@ -1,7 +1,7 @@
-import { getPage, getPages } from '@/app/source';
-import { DocsBody, DocsPage } from 'fumadocs-ui/page';
-import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { getPage, getPages } from "@/app/source";
+import { DocsBody, DocsPage } from "fumadocs-ui/page";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 export const dynamicParams = false;
 
@@ -25,9 +25,9 @@ const Page = ({ params }: { params: { slug?: string[] } }) => {
   return (
     <DocsPage toc={post.data.exports.toc} lastUpdate={lastUpdate}>
       <DocsBody>
-        <h4 className='text-right'>{date}</h4>
-        <h1 className='mb-auto'>{post.data.title}</h1>
-        <p className='mt-4 mb-10'>{post.data.description}</p>
+        <h4 className="text-right font-normal">{date}</h4>
+        <h1 className="mb-auto font-normal">{post.data.title}</h1>
+        <p className="italic mt-4 mb-10">{post.data.description}</p>
         <MDX />
       </DocsBody>
     </DocsPage>
@@ -42,22 +42,18 @@ export const generateStaticParams = () => {
   }));
 };
 
-export const generateMetadata = ({
-  params,
-}: { params: { slug?: string[] } }) => {
+export const generateMetadata = ({ params }: { params: { slug?: string[] } }) => {
   const post = getPage(params.slug);
   if (post === undefined) return;
 
   const title = post.data.title;
   const description = post.data.description;
   const imageParams = new URLSearchParams();
-  imageParams.set('title', title);
-  imageParams.set('description', description ?? '');
+  imageParams.set("title", title);
+  imageParams.set("description", description ?? "");
 
   return {
-    metadataBase: new URL(
-      process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
-    ),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
     title: title,
     description: description,
     openGraph: {

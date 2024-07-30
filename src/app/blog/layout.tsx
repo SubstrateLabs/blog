@@ -10,8 +10,11 @@ const RootDocsLayout = ({ children }: { children: ReactNode }) => {
       tree={sortedByDatePageTree}
       nav={{
         title: (
-          <div className="invert-0 group-hover:invert py-2 rounded backdrop-blur px-2 group space-x-2 hover:bg-[#292B33] flex items-center">
-            <FullLogo height={28} />
+          <div className="invert-0 group-hover:invert py-2 rounded backdrop-blur px-2 group space-x-2 flex md:flex-col items-start">
+            <div>
+              <FullLogo height={28} />
+            </div>
+            <div className="text-xl font-normal mt-1 tracking-tighter">Blog</div>
           </div>
         ),
         url: "https://substrate.run/blog",

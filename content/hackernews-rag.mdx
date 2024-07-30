@@ -6,7 +6,7 @@ image: "/hnrag.png"
 ---
 
 <div>
-    <img width={1020} height={510} src="/hnrag.png" alt="RAG on Hacker News comments to generate a research summary" />
+  <img width={1020} height={510} src="/hnrag.png" alt="RAG on Hacker News comments to generate a research summary" />
 </div>
 
 In this post, we'll show you how to search Hacker News comments for a topic, extract sentiment, and generate a research summary in 34 lines of code using Substrate.
@@ -14,15 +14,16 @@ In this post, we'll show you how to search Hacker News comments for a topic, ext
 - [Read on Twitter](https://x.com/vprtwn/status/1812844236401762513)
 - [Read on LinkedIn](https://www.linkedin.com/pulse/rag-hacker-news-comments-34-lines-code-substratelabs-pouje)
 
-<br/>
-
 This concise RAG implementation runs dozens of LLM calls in parallel and streams the markdown in no time. It's easy to remix, and genuinely useful. Internally, we've already written several scripts like this for Reddit, LinkedIn, and Twitter, and set up alerts to Slack.
 
-<iframe width="100%" height="600px" src="https://www.val.town/embed/substrate/hackerNewsRAG" title="Val Town" frameBorder="0" allowFullScreen></iframe>
-
-<br/>
-
-![hnrag](/hnrag.gif)
+<iframe
+  width="100%"
+  height="600px"
+  src="https://www.val.town/embed/substrate/hackerNewsRAG"
+  title="Val Town"
+  frameBorder="0"
+  allowFullScreen
+></iframe>
 
 First, we search HackerNews comments using the [Algolia HN Search API](https://hn.algolia.com/api).
 
@@ -33,8 +34,6 @@ const searchResults = await hnSearch({
   tags: "comment",
 });
 ```
-
-<br/>
 
 Next, we use ComputeJSON to extract summary, sentiment, and other metadata from each comment. Structured JSON generation is ergonomic, reliable and blazing-fast on Substrate compared to other providers. This is critical for multi-step workflows.
 
@@ -51,8 +50,6 @@ for (const hit of searchResults.hits) {
   );
 }
 ```
-
-<br/>
 
 Finally, we use ComputeText to generate a markdown summary of all the extracted JSON, and stream the results. Streaming on Substrate is really cool. You can of course stream the response of an individual LLM. But you can also stream the incremental steps of your workflow.
 
@@ -73,8 +70,6 @@ const markdown = new ComputeText({
 });
 const stream = await substrate.stream(markdown);
 ```
-
-<br/>
 
 The code we wrote was really simple. Implicitly, we were creating the graph below. But we didn't have to think about the graph at all! With Substrate, by simply relating tasks to each other, we get automatic parallelization of dozens of LLM calls for free, and 0 roundtrips.
 

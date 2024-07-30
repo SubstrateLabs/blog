@@ -4,7 +4,7 @@ import { Pagination } from "./_components/pagination";
 import { notFound } from "next/navigation";
 
 const totalPosts = getPages().length;
-const postsPerPage = 3;
+const postsPerPage = 100;
 const pageCount = Math.ceil(totalPosts / postsPerPage);
 
 const HomePage = ({
@@ -14,10 +14,7 @@ const HomePage = ({
   params: { slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) => {
-  const pageIndex =
-    searchParams && typeof searchParams["page"] == "string"
-      ? Number.parseInt(searchParams["page"])
-      : 0;
+  const pageIndex = searchParams && typeof searchParams["page"] == "string" ? Number.parseInt(searchParams["page"]) : 0;
 
   if (pageIndex < 0 || pageIndex >= pageCount) notFound();
 
@@ -30,7 +27,7 @@ const HomePage = ({
   return (
     <main>
       <div className="mx-4 my-6 lg:mx-auto lg:w-[992px]">
-        <div className="my-6 text-2xl font-bold">
+        <div className="my-6 text-3xl">
           <p>Blog</p>
         </div>
         <div className="flex flex-col gap-4 text-left">

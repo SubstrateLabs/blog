@@ -7,7 +7,7 @@ const HomeLayout = ({ children }: { children: ReactNode }) => {
     <HL
       nav={{
         title: (
-          <div className="invert-0 group-hover:invert py-2 rounded backdrop-blur px-2 group space-x-2 hover:bg-[#292B33] flex items-center">
+          <div className="invert-0 group-hover:invert py-2 rounded backdrop-blur px-2 group space-x-2 flex items-center">
             <FullLogo height={28} />
           </div>
         ),
