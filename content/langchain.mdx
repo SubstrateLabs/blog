@@ -1,0 +1,58 @@
+---
+title: "LangChain vs Substrate: Cognitive Overhead"
+description: "A simple example chaining two LLMs, using LangChain and Substrate. With Substrate it takes 60% less code, and runs 2x faster."
+date: 2024-07-30
+image: "/cognitive-overhead.png"
+---
+
+We'll compare LangChain to Substrate using a simple example chaining two LLMs. In this example, Substrate requires **60% less code**, and runs **2x faster**.
+
+### Using LangChain
+
+First off – LangChain has done amazing things, pioneering and popularizing the practice of chaining language models. The unreasonable effectiveness of chaining LLMs is one of the reasons we decided to start Substrate, so we owe a lot to the path they paved.
+
+We'll create a simple example: generate a story with Mistral 7B, and then summarize the story with another Mistral 7B call. Off the bat, we're introduced to 3 new concepts: "output parsers", "prompt templates", and "runnables".
+
+![langchain](/langchain.png)
+
+We've noted some design choices that felt odd, or opaque. And it was surprising that we had to create a chain for a single LLM call, combining two subchains. In total, it's about 30 lines of code.
+
+### Using Substrate
+
+The same task takes 11 lines of code on Substrate.
+
+```python
+from substrate import ComputeText, Substrate, sb
+
+s = Substrate(api_key=os.environ.get("SUBSTRATE_API_KEY") or "")
+
+topic = "a magical forest"
+story = ComputeText(prompt=f"Tell me a story about {topic}",
+                    model="Mistral7BInstruct")
+summary = ComputeText(prompt=sb.format("Summarize in one sentence: {story}",
+                                       story=story.future.text),
+                      model="Mistral7BInstruct")
+response = s.run(story, summary)
+summary_out = response.get(summary)
+```
+
+Substrate lets you use a familiar programming model (futures) to connect nodes (LLMs, vector search, image generation, and much more). You connect nodes – creating an implicit graph – and then run the graph. The beauty of Substrate is the lack of abstractions. Just computation, and ways to guide data. The other day someone said that Substrate feels like Bash. We don't use the pipe | operator to chain things... but the Unix philosophy still shines through.
+
+### Substrate is fast
+
+Substrate requires less code, and also runs faster – because Substrate is a workflow execution and inference engine. The same LLM chain runs 2x faster on Substrate (in this particular example, using Mistral 7B on Together).
+
+![langchain vs substrate performance](/langchain-perf.png)
+
+Why is it faster?
+
+The LangChain version sends API requests to Together, hitting HTTP transport, batch timeouts, etc, and makes the roundtrip twice.
+
+The Substrate version submits the entire workload at once, and the two inference calls run in the same cluster, on the same machine. (Substrate is the first multi-step inference API.)
+
+Note: Speed isn't really the point here – this article is about cognitive overhead. Together seems to be particularly slow running Mistral 7B, and other inference providers may run faster. For a simple 2-LLM chain, the difference in speed with Substrate's approach should be more marginal. But as you run increasingly complex workloads, the benefits of multi-step inference become much more apparent.
+
+View the full source, fork, and try running yourself here: https://replit.com/@SubstrateLabs/langchain
+
+- [Read on Twitter](https://x.com/vprtwn/status/1817900108215685462)
+- [Read on LinkedIn](https://www.linkedin.com/posts/bgdotjpg_i-finally-tried-using-langchain-for-a-simple-activity-7223688722213445632-KfDu)

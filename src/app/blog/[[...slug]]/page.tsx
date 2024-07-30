@@ -27,7 +27,7 @@ const Page = ({ params }: { params: { slug?: string[] } }) => {
       <DocsBody>
         <h4 className="text-right font-normal">{date}</h4>
         <h1 className="mb-auto font-normal">{post.data.title}</h1>
-        <p className="italic mt-4 mb-10">{post.data.description}</p>
+        {/* <p className="italic mt-4 mb-10">{post.data.description}</p> */}
         <MDX />
       </DocsBody>
     </DocsPage>
