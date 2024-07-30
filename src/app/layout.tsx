@@ -14,9 +14,6 @@ const inter = Inter({
 const Layout = ({ children }: { children: ReactNode }) => {
   return (
     <html lang="en" className={inter.className}>
-      {process.env.NODE_ENV === "production" && (
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID ?? ""} />
-      )}
       <body className="flex min-h-dvh flex-col">
         <RootProvider>
           {children}
@@ -35,9 +32,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
 export default Layout;
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
-  ),
+  metadataBase: new URL("https://substrate.run/blog"),
   title: "Substrate Blog",
   description: "substrate.run - The best way to build compound AI",
   openGraph: {
@@ -48,7 +43,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     title: "Substrate Blog",
-    description: "This is my tech blog.",
+    description: "substrate.run - The best way to build compound AI",
     images: "/api/og",
   },
 };

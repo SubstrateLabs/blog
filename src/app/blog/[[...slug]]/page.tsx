@@ -53,7 +53,7 @@ export const generateMetadata = ({ params }: { params: { slug?: string[] } }) =>
   imageParams.set("description", description ?? "");
 
   return {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+    metadataBase: new URL("https://substrate.run/blog"),
     title: title,
     description: description,
     openGraph: {
