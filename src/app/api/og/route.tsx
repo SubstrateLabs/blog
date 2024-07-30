@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 
 export const runtime = "edge";
 
-const atkinsonBold = fetch(new URL("./fonts/atkinson-bold.ttf")).then((res) =>
+const atkinsonBold = fetch(new URL("/fonts/atkinson-bold.ttf")).then((res) =>
   res.arrayBuffer()
 );
 
