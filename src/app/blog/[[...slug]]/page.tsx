@@ -49,9 +49,6 @@ export const generateMetadata = ({ params }: { params: { slug?: string[] } }) =>
 
   const title = post.data.title;
   const description = post.data.description;
-  const imageParams = new URLSearchParams();
-  imageParams.set("title", title);
-  imageParams.set("description", description ?? "");
 
   return {
     metadataBase: new URL("https://substrate.run/blog"),
@@ -60,13 +57,13 @@ export const generateMetadata = ({ params }: { params: { slug?: string[] } }) =>
     openGraph: {
       title: title,
       description: description,
-      images: `/api/og?${imageParams.toString()}`,
+      images: `/og-image-v3.png`,
       url: post.url,
     },
     twitter: {
       title: title,
       description: description,
-      images: `/api/og?${imageParams.toString()}`,
+      images: `/og-image-v3.png`,
     },
   } satisfies Metadata;
 };
