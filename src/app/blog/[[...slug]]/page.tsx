@@ -2,6 +2,7 @@ import { getPage, getPages } from "@/app/source";
 import { DocsBody, DocsPage } from "fumadocs-ui/page";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { formatDistance } from "date-fns";
 
 export const dynamicParams = false;
 
@@ -25,7 +26,7 @@ const Page = ({ params }: { params: { slug?: string[] } }) => {
   return (
     <DocsPage toc={post.data.exports.toc} lastUpdate={lastUpdate}>
       <DocsBody>
-        <h4 className="text-right font-normal">{date}</h4>
+        <h4 className="text-right font-normal">{`${formatDistance(new Date(), date)} ago`}</h4>
         <h1 className="mb-auto font-normal">{post.data.title}</h1>
         {/* <p className="italic mt-4 mb-10">{post.data.description}</p> */}
         <MDX />

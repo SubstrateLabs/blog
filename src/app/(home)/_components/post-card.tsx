@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { formatDistance } from "date-fns";
 
 export const PostCard = ({
   title,
@@ -27,7 +28,7 @@ export const PostCard = ({
           <p className="overflow-hidden overflow-ellipsis whitespace-nowrap text-medium text-muted-foreground text-wrap">
             {description}
           </p>
-          <h3 className="text-left font-medium pt-2">{date}</h3>
+          <h3 className="text-left font-medium pt-2">{`${formatDistance(new Date(), date)} ago`}</h3>
         </div>
         {/* <div className="hidden lg:block">
           <Image

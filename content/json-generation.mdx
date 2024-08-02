@@ -1,0 +1,66 @@
+---
+title: "Using LLMs to generate JSON: A new way to code"
+description: "Fast, accurate JSON generation with LLMs is the glue we need to do less prompt engineering, and more software engineering."
+date: 2024-08-01
+image: "/launch-image.png"
+---
+
+Generating JSON with LLMs is broadly applicable to many tasks.
+At Substrate, we believe it's the _glue_ we need to do _less prompt engineering_, and _more software engineering_.
+
+JSON generation with LLMs **makes data much more malleable**. In AI-integrated programs, we can easily extract data from unstructured sources, or even "shapeshift" structured data into any shape we want – [substrate-typescript](https://github.com/substrateLabs/substrate-typescript) code below.
+
+```typescript TypeScript
+import { ComputeJSON, ComputeText, sb, Substrate } from "npm:substrate";
+import { z } from "zod";
+import { zodToJsonSchema } from "zod-to-json-schema";
+
+const original = {
+  personalInfo: {
+    name: "John Doe",
+    age: 30,
+  },
+  occupation: "Software Engineer",
+  fullAddress: "123 Main St, Anytown",
+  address: {
+    street: "123 Main St",
+    city: "Anytown",
+  },
+};
+
+const substrate = new Substrate({ apiKey: "YOUR_API_KEY" });
+
+const TargetSchema = z.object({
+  fullName: z.string(),
+  yearsOld: z.number().int().nonnegative(),
+  profession: z.string(),
+  location: z.object({
+    streetAddress: z.string(),
+    cityName: z.string(),
+  }),
+});
+
+const json = new ComputeJSON({
+  prompt: `Translate the following JSON object to the target schema.
+  ${JSON.stringify(original)}`,
+  json_schema: zodToJsonSchema(TargetSchema),
+});
+
+const res = await substrate.run(json);
+```
+
+The brave new world of AI engineering has introduced a lot of new terms. But a lot of these terms refer to concepts that are quite simple – they're just multi-step flows. And a lot of these flows can be reframed in terms of JSON generation.
+
+- RAG? That's generating JSON for your vector DB query, searching, and then calling an LLM. (JSON generation can be useful on both the "Retrieval" and "Augmented Generation" sides).
+- Function calling? Tool use? That's generating JSON for a function call, calling the function, and then calling an LLM. (Any multi-step LLM flow is a form of "Augmented Generation").
+
+And there's a real benefit to reframing things way. JSON generation can improve reliability, and it's well established that LLM programs improve when multiple calls are chained together. You can also save on inference costs:
+
+1. By using smaller models for each step.
+2. By using smaller prompts (you can just define a schema, instead of coaxing with multi-shot examples)
+
+What's the catch? JSON generation and multi-step flows are known to be slow, and unreliable. That's where Substrate comes in. We've _relentlessly_ optimized our JSON generation implementation to ensure it's [fast at scale](/substack), and follows your schema with 100% accuracy. And Substrate's unique inference approach enables multi-step flows to run with maximum parallelism, and zero unnecessary data roundtrips.
+
+LLMs offer **programmatic access to heuristic computation**. It's been a long time since we saw such an important new element enter the practice of programming.
+
+Heuristic and symbolic computation are good for different things – and _structured generation is the glue we need_ to combine them into a new kind of AI-integrated program.

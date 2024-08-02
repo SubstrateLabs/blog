@@ -1,14 +1,16 @@
 ---
-title: "RAG on Hacker News comments to generate a research summary"
-description: "Learn how to search Hacker News comments for a topic, extract sentiment, and generate a research summary in 34 lines of Substrate code. Runs dozens of LLM calls in parallel and streams markdown. Built in 15 minutes, easy to remix."
+title: "RAG on Substrate, Part 1: Summarize Hacker News comments"
+description: "Get started with RAG (Retrieval Augmented Generation) on Substrate. We'll summarize dozens of Hacker News comments in parallel and generate streaming markdown."
 date: 2024-07-15
 image: "/hnrag.png"
 ---
 
-In this post, we'll show you how to search Hacker News comments for a topic, extract sentiment, and generate a research summary in 34 lines of code using Substrate.
+RAG, or "Retrieval Augmented Generation", is a popular technique for enhancing the output of language models. RAG consists of two parts:
 
-- [Read on Twitter](https://x.com/vprtwn/status/1812844236401762513)
-- [Read on LinkedIn](https://www.linkedin.com/pulse/rag-hacker-news-comments-34-lines-code-substratelabs-pouje)
+- "R" (Retrieval) – search for relevant context.
+- "AG" (Augmented Generation) – enrich a prompt with search results to "augment" the output.
+
+To give you a sense for how easy it is to build RAG on Substrate, we'll show you how to search Hacker News comments for a topic, extract sentiment, and generate a research summary in 34 lines of code using Substrate. Substrate comes with a built-in vector store that's performant and cost effective. In our next post in this series, we'll show you how to perform RAG with vector search.
 
 This concise RAG implementation runs dozens of LLM calls in parallel and streams the markdown in no time. It's easy to remix, and genuinely useful. Internally, we've already written several scripts like this for Reddit, LinkedIn, and Twitter, and set up alerts to Slack.
 
