@@ -1,56 +1,88 @@
 ---
-title: "Cognitive Overhead: Comparing LangChain to Substrate"
+title: "LangChain vs. Substrate: Cognitive overhead"
 description: "We'll compare a simple example chaining two LLMs. With Substrate it takes 60% less code than LangChain, and runs faster."
 date: 2024-07-30
 image: "/cognitive-overhead.png"
 ---
 
-We'll compare LangChain to Substrate using a simple example chaining two LLMs. In this example, Substrate requires **60% less code**, and runs faster.
+At Substrate, principled [API design](/reference/api-design) runs deep in our DNA: [Ben](https://www.linkedin.com/in/bgdotjpg/) was at Stripe for nearly a decade, crafting novel APIs like [Stripe Terminal](https://stripe.com/terminal). We believe **AI engineers deserve better abstractions**.
 
-### Using LangChain
+We'll compare LangChain to Substrate by implementing a simple workflow. The Substrate implementation requires 3x less code.
 
-First off – LangChain has done amazing things, pioneering and popularizing the practice of chaining language models. The unreasonable effectiveness of chaining LLMs is one of the reasons we decided to start Substrate, so we owe a lot to the path they paved.
+### Substrate: 12 lines
 
-We'll create a simple example: generate a story with Mistral 7B, and then summarize the story with another Mistral 7B call. Off the bat, we're introduced to 3 new concepts: "output parsers", "prompt templates", and "runnables".
-
-![langchain](/langchain.png)
-
-We've noted some design choices that felt odd, or opaque. And it was surprising that we had to create a chain for a single LLM call, combining two subchains. In total, it's about 30 lines of code.
-
-### Using Substrate
-
-The same task takes 11 lines of code on Substrate.
-
-```python
+```python Substrate
 from substrate import ComputeText, Substrate, sb
 
-s = Substrate(api_key=os.environ.get("SUBSTRATE_API_KEY") or "")
+s = Substrate(api_key="SUBSTRATE_API_KEY")
 
-topic = "a magical forest"
-story = ComputeText(prompt=f"Tell me a story about {topic}",
-                    model="Mistral7BInstruct")
-summary = ComputeText(prompt=sb.format("Summarize in one sentence: {story}",
-                                       story=story.future.text),
-                      model="Mistral7BInstruct")
-response = s.run(story, summary)
-summary_out = response.get(summary)
+topic1 = "a magical forest"
+topic2 = "a futuristic city"
+story1 = ComputeText(prompt=f"Tell me a story about {topic1}")
+story2 = ComputeText(prompt=f"Tell me a story about {topic2}")
+summary = ComputeText(prompt=sb.format(
+    "Summarize these two stories:\nStory 1: {story1}\nStory 2: {story2}",
+    story1=story1.future.text,
+    story2=story2.future.text)
+)
+response = s.run(summary)
 ```
 
-Substrate lets you use a familiar programming model (futures) to connect nodes (LLMs, vector search, image generation, and much more). You connect nodes – creating an implicit graph – and then run the graph. The beauty of Substrate is the lack of abstractions. Just computation, and ways to guide data. The other day someone said that Substrate feels like Bash. We don't use the pipe | operator to chain things... but the Unix philosophy still shines through.
+### LangChain: 36 lines
 
-### Substrate is fast
+```python LangChain
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.runnables import RunnableParallel
+from langchain_openai import ChatOpenAI
 
-Substrate requires less code, and also runs faster – because Substrate is a workflow execution and inference engine. The same LLM chain runs about 2x faster on Substrate (in this particular example, using Mistral 7B on Together).
+model = ChatOpenAI(
+    base_url="https://api.together.xyz/v1",
+    api_key="TOGETHER_API_KEY",
+    model="mistralai/Mistral-7B-Instruct-v0.3",
+)
 
-![langchain vs substrate performance](/langchain-perf.png)
+story_prompt1 = ChatPromptTemplate.from_template(
+    "Tell me a story about {topic1}")
+story_prompt2 = ChatPromptTemplate.from_template(
+    "Tell me a story about {topic2}")
+summarize_prompt = ChatPromptTemplate.from_template(
+    "Summarize these two stories:\nStory 1: {story1}\nStory 2: {story2}"
+)
 
-Why is it faster?
+output_parser = StrOutputParser()
 
-The LangChain version sends API requests to Together, hitting HTTP transport, batch timeouts, etc, and makes the roundtrip twice.
+story_chain1 = story_prompt1 | model | output_parser
+story_chain2 = story_prompt2 | model | output_parser
 
-The Substrate version submits the entire workload at once, and the two inference calls run in the same cluster, on the same machine. (Substrate is the first multi-step inference API.)
+parallel_chain = RunnableParallel(
+    story1={"topic1": lambda x: x["topic1"]} | story_chain1,
+    story2={"topic2": lambda x: x["topic2"]} | story_chain2,
+)
+summarize_chain = summarize_prompt | model | output_parser
 
-Note: Speed isn't really the point here – this article is about cognitive overhead. Together seems to be particularly slow running Mistral 7B, and other inference providers may run faster. For a simple 2-LLM chain, the difference in speed with Substrate's approach should be more marginal. But as you run increasingly complex workloads, the benefits of multi-step inference become much more apparent.
+topics = {"topic1": "a magical forest", "topic2": "a futuristic city"}
+
+parallel_result = parallel_chain.invoke(topics)
+summary = summarize_chain.invoke({
+    "story1": parallel_result['story1'],
+    "story2": parallel_result['story2']
+})
+```
+
+It's surprisingly complex to chain LLMs using LangChain. This simple task requires 3x more code than the Substrate implementation, and several extra abstractions:
+
+- `ChatPromptTemplate` – Substrate lets you simply use format strings, or even [jinja](/overview/futures#joining-strings).
+- `StrOutputParser` – Substrate uses idiomatic tools (like format strings) to [transform outputs](/overview/futures), follows the [Unix Philosophy](/reference/api#philosophy): "Don't clutter output with extraneous information".
+- `RunnableParallel` – Substrate automatically parallelizes your workflow. Because `story1` and `story2` don't depend on anything, Substrate runs them in parallel.
+
+Substrate's unique approach lets you work at the conceptual layer, and trust Substrate to automatically optimize your workload when you call `substrate.run`:
+
+- First, we analyze your workload as a [directed acyclic graph](https://en.wikipedia.org/wiki/Directed_acyclic_graph) and rewrite it: for example, merging nodes that can be run in a batch.
+- Then, we schedule the graph with maximum parallelism. No more async programming: just connect nodes, and let us handle the parallelism.
+- Because Substrate runs your entire workload in the same cluster (often running all the inference on the same machine), you don't waste time on unnecessary data roundtrips and cross-region HTTP transport.
+
+The beauty of Substrate is the lack of abstractions. Just computation, and ways to guide data.
 
 You can try running this example yourself by forking on Replit:
 
