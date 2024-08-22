@@ -1,4 +1,6 @@
 import { getPages } from "@/app/source";
+import { cn } from "@/utils";
+import { H1 } from "../_components/typography";
 import { PostCard } from "./_components/post-card";
 import { Pagination } from "./_components/pagination";
 import { notFound } from "next/navigation";
@@ -14,7 +16,10 @@ const HomePage = ({
   params: { slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) => {
-  const pageIndex = searchParams && typeof searchParams["page"] == "string" ? Number.parseInt(searchParams["page"]) : 0;
+  const pageIndex =
+    searchParams && typeof searchParams["page"] == "string"
+      ? Number.parseInt(searchParams["page"])
+      : 0;
 
   if (pageIndex < 0 || pageIndex >= pageCount) notFound();
 
@@ -25,12 +30,21 @@ const HomePage = ({
     .slice(startIndex, endIndex);
 
   return (
-    <main>
-      <div className="mx-4 my-6 lg:mx-auto lg:w-[992px]">
-        <div className="my-6 text-3xl">
-          <p>Blog</p>
-        </div>
-        <div className="flex flex-col gap-4 text-left">
+    <main
+      className={cn(
+        "max-w-[60rem] mx-auto my-14",
+        "px-4 pt-10 md:px-6 md:pt-12"
+      )}
+    >
+      <H1>Substrate Blog</H1>
+      <div
+        className={cn(
+          "mt-12 mb-8 p-4 -mx-4 relative",
+          "transform-gpu" // Fixes a Safari rendering quirk with PostCard's :hover/:active transforms
+        )}
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(theme('colors.zinc.400')_0.5px,transparent_0.5px)] dark:bg-[radial-gradient(theme('colors.zinc.600')_0.5px,transparent_0.5px)] bg-[length:3.75px_3.75px]" />
+        <div className="space-y-5">
           {posts.map((post) => {
             const date = new Date(post.data.date).toLocaleDateString();
             return (
@@ -46,10 +60,8 @@ const HomePage = ({
             );
           })}
         </div>
-        <div className="my-6">
-          <Pagination current={pageIndex + 1} end={pageCount} path="" />
-        </div>
       </div>
+      <Pagination current={pageIndex + 1} end={pageCount} path="" />
     </main>
   );
 };

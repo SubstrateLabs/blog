@@ -1,17 +1,24 @@
+import Link from "next/link";
+
 export const Footer = () => {
   return (
-    <footer className="flex justify-between items-center p-5">
-      <div className="text-md text-gray-600">&copy; 2024 Substrate Labs</div>
-      <nav>
+    <footer className="w-full max-w-container mx-auto md:grid md:grid-cols-2 text-xs pt-8 text-zinc-500 mt-12 md:mt-6 pb-16 md:pb-24 border-t-gray-200 dark:border-t-zinc-800 border-t border-dotted">
+      <Link
+        href="https://www.substrate.run"
+        className="no-underline mb-6 leading-tight flex gap-x-1"
+      >
+        &copy; 2023&ndash;2024. Substrate Labs Inc.
+      </Link>
+      <nav className="space-y-2 md:space-y-1 md:ml-auto">
         <a
           href="https://x.com/substratelabs"
-          className="mr-4 text-sm text-gray-600 hover:text-gray-800"
+          className="flex items-center gap-x-2 hover:underline w-full py-px"
         >
-          <div>
+          <div className="w-[1em]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="2em"
-              height="2em"
+              width="1em"
+              height="1em"
               viewBox="0 0 512 512"
             >
               <path
@@ -20,16 +27,17 @@ export const Footer = () => {
               />
             </svg>
           </div>
+          <div>Twitter</div>
         </a>
         <a
           href="https://www.linkedin.com/company/substratelabs"
-          className="mr-4 text-sm text-gray-600 hover:text-gray-800"
+          className="flex items-center gap-x-2 hover:underline w-full py-px"
         >
-          <div>
+          <div className="w-[1em]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="2em"
-              height="2em"
+              width="0.88em"
+              height="1em"
               viewBox="0 0 448 512"
             >
               <path
@@ -38,17 +46,19 @@ export const Footer = () => {
               />
             </svg>
           </div>
+          <div>LinkedIn</div>
         </a>
         <a
           href="https://join.slack.com/t/substratecommunity/shared_invite/zt-2jd8w6b7n-b0qE5QWV7rsClGglHeu_rA"
-          className="text-sm text-gray-600 hover:text-gray-800"
+          className="flex items-center gap-x-2 hover:underline w-full py-px"
         >
-          <div className="pb-0.5">
+          <div className="w-[1em]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="2em"
-              height="2em"
+              width="1em"
+              height="1em"
               viewBox="0 0 256 256"
+              className="grayscale"
             >
               <path
                 fill="#e01e5a"
@@ -68,6 +78,7 @@ export const Footer = () => {
               />
             </svg>
           </div>
+          <div>Slack Community</div>
         </a>
       </nav>
     </footer>
