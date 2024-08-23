@@ -8,6 +8,16 @@
   }
 }
 
+:root {
+  /* Set fumadocs theme background to white. */
+  --background: 0 0% 100%;
+}
+
+.dark {
+  /* In dark mode, set fumadocs theme background to off-black. */
+  --background: 0 0% 3.9%;
+}
+
 div[data-toc].sticky {
   display: none;
 }

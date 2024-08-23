@@ -18,7 +18,7 @@ const Card = ({
 }) => {
   if (disable) {
     return (
-      <div className="rounded-full border bg-card p-2 text-muted-foreground">
+      <div className="rounded-full border bg-card p-2 text-muted-foreground opacity-30">
         {children}
       </div>
     );
@@ -42,29 +42,21 @@ export const Pagination = ({
   path: string;
 }) => {
   return (
-    <div className="flex justify-center gap-2">
+    <div className="flex justify-center gap-4">
       <Card num={1} disable={current === 1}>
-        <h2 className="text-xl font-medium">
-          <ChevronsLeft />
-        </h2>
+        <ChevronsLeft />
       </Card>
       <Card num={current - 1} disable={current === 1}>
-        <h2 className="text-xl font-medium">
-          <ChevronLeft />
-        </h2>
+        <ChevronLeft />
       </Card>
-      <div className="my-auto text-xl mx-2">
-        {current} / {end}
+      <div className="my-auto mx-4 font-normal text-md text-fd-muted-foreground">
+        Page {current} of {end}
       </div>
       <Card num={current + 1} disable={current === end}>
-        <h2 className="text-xl font-medium">
-          <ChevronRight />
-        </h2>
+        <ChevronRight />
       </Card>
       <Card num={end} disable={current === end}>
-        <h2 className="text-xl font-medium">
-          <ChevronsRight />
-        </h2>
+        <ChevronsRight />
       </Card>
     </div>
   );
