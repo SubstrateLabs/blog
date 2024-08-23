@@ -28,7 +28,7 @@ dependencies:
     version: 8.2.34(fumadocs-core@12.5.6)(next@14.2.5)
   fumadocs-ui:
     specifier: ^12.3.4
-    version: 12.5.6(@types/react-dom@18.3.0)(@types/react@18.3.3)(next@14.2.5)(react-dom@18.3.1)(react@18.3.1)(tailwindcss@3.4.4)
+    version: 12.5.6(@types/react-dom@18.3.0)(@types/react@18.3.3)(next@14.2.5)(react-dom@18.3.1)(react@18.3.1)(tailwindcss@3.4.10)
   katex:
     specifier: ^0.16.10
     version: 0.16.11
@@ -80,8 +80,8 @@ devDependencies:
     specifier: ^8.4.39
     version: 8.4.40
   tailwindcss:
-    specifier: 3.4.4
-    version: 3.4.4
+    specifier: ^3.4.10
+    version: 3.4.10
   typescript:
     specifier: ^5.5.2
     version: 5.5.4
@@ -1202,7 +1202,7 @@ packages:
       tslib: 2.6.3
     dev: false
 
-  /@tailwindcss/typography@0.5.13(tailwindcss@3.4.4):
+  /@tailwindcss/typography@0.5.13(tailwindcss@3.4.10):
     resolution: {integrity: sha512-ADGcJ8dX21dVVHIwTRgzrcunY6YY9uSlAHHGVKvkA+vLc5qLwEszvKts40lx7z0qc4clpjclwLeK5rVCV2P/uw==}
     peerDependencies:
       tailwindcss: '>=3.0.0 || insiders'
@@ -1211,7 +1211,7 @@ packages:
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       postcss-selector-parser: 6.0.10
-      tailwindcss: 3.4.4
+      tailwindcss: 3.4.10
     dev: false
 
   /@types/acorn@4.0.6:
@@ -1752,7 +1752,7 @@ packages:
       - supports-color
     dev: false
 
-  /fumadocs-ui@12.5.6(@types/react-dom@18.3.0)(@types/react@18.3.3)(next@14.2.5)(react-dom@18.3.1)(react@18.3.1)(tailwindcss@3.4.4):
+  /fumadocs-ui@12.5.6(@types/react-dom@18.3.0)(@types/react@18.3.3)(next@14.2.5)(react-dom@18.3.1)(react@18.3.1)(tailwindcss@3.4.10):
     resolution: {integrity: sha512-8kYsrSCbRuo2rS09xTAb5HejtH8QDsSlqWGC8k+D9GI4WdAW7kAQCg6k9idnhhP/nq3QOsyMtvpoUGkje91bpQ==}
     peerDependencies:
       next: '>= 14.1.0'
@@ -1766,7 +1766,7 @@ packages:
       '@radix-ui/react-popover': 1.1.1(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-scroll-area': 1.1.0(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-tabs': 1.1.0(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
-      '@tailwindcss/typography': 0.5.13(tailwindcss@3.4.4)
+      '@tailwindcss/typography': 0.5.13(tailwindcss@3.4.10)
       class-variance-authority: 0.7.0
       cmdk: 1.0.0(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       fumadocs-core: 12.5.6(@types/react@18.3.3)(next@14.2.5)(react-dom@18.3.1)(react@18.3.1)
@@ -3388,8 +3388,8 @@ packages:
     resolution: {integrity: sha512-49AwoOQNKdqKPd9CViyH5wJoSKsCDjUlzL8DxuGp3P1FsGY36NJDAa18jLZcaHAUUuTj+JB8IAo8zWgBNvBF7A==}
     dev: false
 
-  /tailwindcss@3.4.4:
-    resolution: {integrity: sha512-ZoyXOdJjISB7/BcLTR6SEsLgKtDStYyYZVLsUtWChO4Ps20CBad7lfJKVDiejocV4ME1hLmyY0WJE3hSDcmQ2A==}
+  /tailwindcss@3.4.10:
+    resolution: {integrity: sha512-KWZkVPm7yJRhdu4SRSl9d4AK2wM3a50UsvgHZO7xY77NQr2V+fIrEuoDGQcbvswWvFGbS2f6e+jC/6WJm1Dl0w==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     dependencies:
